@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>选课</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="../../css/layui.css"  media="all">
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="../../layui.js"></script>
+  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+  <style type="text/css">
+    li{
+    	float: left;
+    	width: 100px;
+    	line-height: 50px;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="layui-tab">
+  <ul class="layui-tab-title">
+    <li class="layui-this">选课</li>
+   
+  </ul>
+  <div class="layui-tab-content">
+    <div class="layui-tab-item layui-show">
+
+
+      <div class="layui-form">
+         <!--表格-->
+         <table class="layui-hide" id="test" lay-filter="test"></table>
+ 
+          <script type="text/html" id="barDemo">
+             <a lay-event="edit" style="color: blue">修改</a>
+             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+          </script>
+          <script type="text/html" id="barDemo2">
+              <a lay-event="enter" style="color: blue">录入</a>
+          </script>
+          <script type="text/html" id="barDemo3">
+              <a lay-event="selectSubject" style="color: blue">选课</a>
+          </script>
+
+      </div>
+
+
+
+    </div>
+
+  </div>
+</div>
+
+
+<!--隐藏的修改页面-->
+<div class="editManage" >
+
+    <form class="layui-form" action="" lay-filter="example">
+
+        <!--<div style="margin-left: 20px">信息管理</div>-->
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">还未选择的学科</label>
+                    <div class="layui-input-inline">
+                        <select name="subject" id="subjectName">
+                            <option value="">请选择学科</option>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+        <!--<div class="layui-form-item">-->
+            <!--<div class="layui-inline">-->
+                <!--<label class="layui-form-label">录入分数</label>-->
+                <!--<div class="layui-input-inline">-->
+                    <!--<input type="text" name="scores" id="scores" autocomplete="off" class="layui-input" >-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label" style="display: none">学生ID</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="stuId" id="stuId" autocomplete="off" class="layui-input" style="display: none" >
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn" lay-submit lay-filter="add_demo">确定选课</button>
+
+            </div>
+            <div class="layui-input-block">
+                <button  style="margin-top:50px"><a href="student.html">返回上一页</a></button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<script>
+
+    // // 我的学科
+        layui.use('form', function() {
+            var url = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                }
+            }
+            var stuId=theRequest["stuId"]
+            console.log("从url中获取的id"+stuId)
+            $.ajax({
+                url : "/student/selectSubject",//路径   //  / => localhost(127.0.0.1) :8080
+                type : "post",  //提交方式
+                dataType: 'json', // 接收数据的格式
+                data : {
+                    'stuId':stuId
+                }, //数据，这里使用的是Json格式进行传输  JSON.stringify(obj.field)
+                success : function(res) {//返回数据根据结果进行相应的处理
+
+                        for(var i =0;i<res.length;i++){
+                            $("#subjectName").append("<option value=\""+res[i].subjectId+"\">"+res[i].subjectName+"</option>");
+
+                        }
+                        $("#stuId").val(stuId)
+                        //重新渲染
+                        layui.form.render("select");
+
+
+
+
+                }
+
+            })
+        })
+
+layui.use(['form','table'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            // ,table=layui.table;
+
+//监听提交
+        form.on('submit(add_demo)', function(data){
+
+                $.ajax({
+                    url : "/student/selectSubjectBystu",//路径   //  / => localhost(127.0.0.1) :8080
+                    type : "post",  //提交方式
+                    dataType: 'json', // 接收数据的格式
+                    data : {
+                        "subjectId":$("#subjectName").val(),
+                        "stuId":$("#stuId").val(),
+                    }, //数据，这里使用的是Json格式进行传输  JSON.stringify(obj.field)
+                    success : function(res) {//返回数据根据结果进行相应的处理
+                        if(res.status=="success"){
+                            layer.msg("选课成功")
+
+                        }else {
+                            layer.alert("选课失败");
+                        }
+                    }
+                });
+            return false;
+        });
+    });
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>上传头像</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="../../css/layui.css"  media="all">
+    <!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
+    <!--<link rel="stylesheet" href="/resources/demos/style.css">-->
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+  <script type="text/javascript" src="../../layui.js"></script>
+
+  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+  <style type="text/css">
+    li{
+    	float: left;
+    	width: 100px;
+    	line-height: 50px;
+    }
+
+  </style>
+</head>
+<body>
+
+
+<div>
+    <label>点击上传头像</label>
+    <div class="layui-form-item">
+
+        <div class="layui-input-inline">
+            <div class="layui-upload">
+                <input type="hidden" name="logo" value="" id="logo">
+                <input type="button" id="myimage">
+                <div class="layui-upload-list">
+                    <img class="layui-upload-img" id="demo1" width="80px" height="80px">
+                    <p id="demoText"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    var myVarate = 'https://zhaomingda.oss-cn-beijing.aliyuncs.com/img/touxiang.jpg';
+    layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element'], function () {
+        var layer = layui.layer, upload = layui.upload, $ = layui.$, demoText = $('#demoText');
+        $('#demo1').attr('src', myVarate);//页面初始化的时候渲染图片
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#demo1',
+            url: '/upload/filesUpload',//这里填写你的上传地址
+            accept: 'images',
+            method: 'post',
+            acceptMime: 'image/*'
+            , before: function (obj) {
+                /*如果您不想用上面的URL 进行上传,也可以在这里,添加你的上传方式*/
+                obj.preview(function (index, file, result) {
+                    $('#demo1').attr('src', result);//图片链接（base64）
+                });
+            }, done: function (res) {
+
+                if (res.code == 200) {//长传成功(具体返回code 看后台是怎么处理的)
+                    // $('#demo1').attr('src', res.data);//图片链接（base64）
+                    return layer.msg('上传失败');
+                    demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                } else {
+                    layer.msg('图片上传成功!');
+                }
+            }
+            , error: function () {
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+            }
+        });
+        //上传失败监听重试按钮的操作
+        demoText.find('.demo-reload').on('click', function () {
+            uploadInst.upload();
+        });
+    });
+</script>
+
+
+
+</body>
+</html>

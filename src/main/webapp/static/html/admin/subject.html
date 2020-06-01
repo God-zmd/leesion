@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>学生管理</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="../../css/layui.css"  media="all">
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="../../layui.js"></script>
+  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+  <style type="text/css">
+    li{
+    	float: left;
+    	width: 100px;
+    	line-height: 50px;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="layui-tab">
+  <ul class="layui-tab-title">
+    <li class="layui-this">学科信息管理</li>
+   
+  </ul>
+  <div class="layui-tab-content">
+    <div class="layui-tab-item layui-show">
+        <div class="site-demo-button" id="layerDemo" style="margin-bottom: 0">
+            <!--<form class="layui-form" action="" lay-filter="search_example">-->
+                <!--<input type="text" name="search" id="search" style="height:40px;margin-left:50px;margin-top:20px">-->
+                <!--<button class="layui-btn" style="height:40px;width:80px">搜索</button>-->
+            <!--</form>-->
+
+             <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+             <button data-method="notice" class="layui-btn" style="left:200px">添加</button>
+             <!--<button class="layui-btn" id="many_del">批量删除</button>-->
+
+        </div>
+
+      <div class="layui-form">
+         <!--表格-->
+         <table class="layui-hide" id="test" lay-filter="test"></table>
+ 
+          <script type="text/html" id="barDemo">
+             <a lay-event="edit" style="color: blue">修改</a>
+             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+          </script>
+          <script type="text/html" id="barDemo2">
+              <a lay-event="edit" style="color: blue">录入</a>
+          </script>
+          <script type="text/html" id="barDemo3">
+              <a lay-event="edit" style="color: blue">选课</a>
+          </script>
+
+      </div>
+
+
+
+    </div>
+
+  </div>
+</div>
+
+
+<!--!&#45;&#45;隐藏的修改页面&ndash;&gt;-->
+<div class="editManage" style="display: none">
+
+    <form class="layui-form" action="" lay-filter="example">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label" style="display: none">学科id</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="subjectId" id="subjectId" autocomplete="off" class="layui-input" style="display: none" >
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label" >学科名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="subjectName" id="subjectName" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn" lay-submit lay-filter="edit_demo">立即提交</button>
+                <!--<button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- 隐藏的添加页面         -->
+<div class="showAdd" style="display:none;position:relative;margin-top: 10px">
+
+    <form class="layui-form" action="" lay-filter="add_example">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">学科</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="subjectName" id="subjectNameadd" placeholder="请输入要添加的学科名称" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn" lay-submit="" lay-filter="add_demo">确认添加</button>
+                <!--<button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script>
+//关闭添加页面
+function closepage(){
+  layer.closeAll('page'); //关闭所有页面层
+}
+
+//添加页面确认按钮事件
+function Yclick(){
+  var msg='还没有数据'
+  layui.use('layer', function(){
+  var layer = layui.layer;
+  layer.msg(msg);
+});
+}
+
+
+
+//表格
+
+layui.use(['table','form'], function(){
+  var table = layui.table,
+               form=layui.form;
+
+    table.render({
+    elem: '#test'
+    ,url:"/subject/findAll"
+    ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+      ,type:'get'
+    ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+      title: '提示'
+      ,layEvent: 'LAYTABLE_TIPS'
+      ,icon: 'layui-icon-tips'
+      ,skin: 'demo-class'
+    }]
+    ,title: '用户数据表'
+    ,parseData:function (res) {
+        console.log(res);
+        return {
+            "code": res.code
+            , "msg": res.msg
+            , "count": res.count
+            , "data": res.data
+        }
+      }
+    ,cols: [[
+      {type: 'checkbox', fixed: 'left'}
+       ,{field:'subjectId', title:'编号', width:80, fixed: 'left', unresize: true,sort: true}
+      ,{field:'subjectName', title:'学科名称', width:250}
+      ,{field:'subjectNum', title:'学科选修人数', width:250}
+      ,{field:'avgScores', title:'平均分', width:250}
+       ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+    ]]
+    ,page: true
+      ,limits:[1,5,10,20]
+  });
+
+    //监听行单击事件，给修改页面先赋值
+    table.on('row(test)', function(obj){
+        console.log(obj.data)
+        form.val("example",obj.data)
+    });
+
+    //监听行工具事件
+    table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        var data = obj.data //获得当前行数据
+            ,layEvent = obj.event; //获得 lay-event 对应的值
+        if(layEvent === 'detail'){
+            layer.msg('查看操作');
+        } else if(layEvent === 'del'){
+            layer.confirm('真的删除行么', function(index){
+                // obj.del(); //删除对应行（tr）的DOM结构
+                // layer.close(index);
+                //向服务端发送删除指令
+                $.ajax({
+                    url:'/subject/deleteSubject'
+                    ,type:'get'
+                    ,dataType:'json'
+                    ,data:{
+                        "subjectId":data.subjectId
+                    }
+                    , success:function (res) {
+                        if (res.status=="success") {
+                            layer.msg("删除成功")
+                            var tableIns =table.render({
+                                elem: '#test'
+                                ,url:"/subject/findAll"
+                                ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                                ,type:'get'
+                                ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                                    title: '提示'
+                                    ,layEvent: 'LAYTABLE_TIPS'
+                                    ,icon: 'layui-icon-tips'
+                                    ,skin: 'demo-class'
+                                }]
+                                ,title: '学科数据表'
+                                ,parseData:function (res) {
+                                    console.log(res);
+                                    return {
+                                        "code": res.code
+                                        , "msg": res.msg
+                                        , "count": res.count
+                                        , "data": res.data
+                                    }
+                                }
+                                ,cols: [[
+                                    {type: 'checkbox', fixed: 'left'}
+                                    ,{field:'subjectId', title:'编号', width:80, fixed: 'left', unresize: true,sort: true}
+                                    ,{field:'subjectName', title:'学科名称', width:250}
+                                    ,{field:'subjectNum', title:'学科选修人数', width:250}
+                                    ,{field:'avgScores', title:'平均分', width:250}
+                                    ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+                                ]]
+                                ,page: true
+                                ,limits:[1,5,10,20]
+                            });
+                            tableIns.reload({
+                                where: { //设定异步数据接口的额外参数，任意设
+
+                                }
+                                ,page: {
+                                    curr: 1 //重新从第 1 页开始
+                                }
+                            });
+                        }
+                        else{
+                            alert("该学科已被被学生选修，不能删除")
+                        }
+
+                    }
+                })
+            });
+        } else if(layEvent === 'edit'){
+            layer.open({
+                            type: 1,
+                            title: '修改',
+                            area:['350px','300px'],
+                            closeBtn: 1,
+                            shadeClose: false,
+                            // skin: 'demo-class',
+                            content: $('.editManage'),
+                        });
+        }
+    });
+
+
+
+  //监听行工具事件
+  // table.on('tool(test)', function(obj){
+  //   var data = obj.data;
+  //   //console.log(obj)
+  //   if(obj.event === 'del'){
+  //     // layer.confirm('真的删除行么', function(index){
+  //     //   obj.del();
+  //     //   layer.close(index);
+  //     // });
+  //   } else if(obj.event === 'edit'){
+  //       layer.open({
+  //           type: 1,
+  //           title: '修改',
+  //           area:['350px','300px'],
+  //           closeBtn: 1,
+  //           shadeClose: false,
+  //           // skin: 'demo-class',
+  //           content: $('.editManage'),
+  //       });
+  //
+  //   }
+  // });
+  //批量删除
+    $('#many_del').on('click',function () {
+        var checkStatus = table.checkStatus('test'); //idTest 即为基础参数 id 对应的值
+        var ids=new Array();
+        if (checkStatus.data.length>0) {
+            $.map(checkStatus.data,function (e) {
+                ids.push(e.subjectId)
+            })
+            console.log(ids)
+            layer.confirm("确定删除选择行吗",function (i) {
+                if (i){
+                    console.log(JSON.stringify(ids))
+                    $.ajax({
+                        url:'/subject/deleteSubject'
+                        ,type:'get'
+                        ,dataType:'json'
+                        ,data:{
+                            "ids":JSON.stringify(ids)
+                        }
+                        , success:function (res) {
+                            if (res.status=="success") {
+                                layer.msg("删除成功")
+                                var tableIns =table.render({
+                                    elem: '#test'
+                                    ,url:"/subject/findAll"
+                                    ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                                    ,type:'get'
+                                    ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                                        title: '提示'
+                                        ,layEvent: 'LAYTABLE_TIPS'
+                                        ,icon: 'layui-icon-tips'
+                                        ,skin: 'demo-class'
+                                    }]
+                                    ,title: '用户数据表'
+                                    ,parseData:function (res) {
+                                        console.log(res);
+                                        return {
+                                            "code": res.code
+                                            , "msg": res.msg
+                                            , "count": res.count
+                                            , "data": res.data
+                                        }
+                                    }
+                                    ,cols: [[
+                                        {type: 'checkbox', fixed: 'left'}
+                                        ,{field:'subjectId', title:'编号', width:80, fixed: 'left', unresize: true,sort: true}
+                                        ,{field:'subjectName', title:'学科名称', width:250}
+                                        ,{field:'subjectNum', title:'学科选修人数', width:250}
+                                        ,{field:'avgScores', title:'平均分', width:250}
+                                        ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+                                    ]]
+                                    ,page: true
+                                    ,limits:[1,5,10,20]
+                                });
+                                tableIns.reload({
+                                    where: { //设定异步数据接口的额外参数，任意设
+
+                                    }
+                                    ,page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    }
+                                });
+                            }
+
+                        }
+                    })
+                }
+                layer.close(i)
+            })
+        }else {
+            layer.alert("没有选择行")
+        }
+
+
+
+    })
+
+});
+
+//点击添加按钮弹出层
+layui.use(['layer','form'], function(){ //独立版的layer无需执行这一句
+  var $ = layui.jquery,
+      layer = layui.layer,
+       form=layui.form; //独立版的layer无需执行这一句
+
+  //触发事件
+  var active = {
+
+    //添加页面事件
+  notice: function(){
+
+    //打开隐藏的添加页面
+     layer.open({
+        type: 1,
+        title: ['添加','background-color:black;color:white'],
+        area:['350px','300px'],
+        closeBtn: 2,
+        shadeClose: false,
+        skin: 'demo-class',
+        content:$('.showAdd')
+      });
+
+    }
+
+  };
+
+  $('#layerDemo .layui-btn').on('click', function(){
+    var othis = $(this), method = othis.data('method');
+    active[method] ? active[method].call(this, othis) : '';
+  });
+});
+
+// 点击修改按钮后的修改操作
+layui.use(['form','table'], function(){
+    var form = layui.form
+        ,layer = layui.layer
+        ,table=layui.table;
+
+//监听提交
+    form.on('submit(edit_demo)', function(data){
+
+          console.log(data.field)
+          // layer.msg(data.field)
+          $.ajax({
+              url : "/subject/updateSubject",//路径   //  / => localhost(127.0.0.1) :8080
+              type : "get",  //提交方式
+              dataType: 'json', // 接收数据的格式
+              // contentType:'application/json;charset=UTF-8',
+              data : {
+                  'subjectId':$("#subjectId").val(),
+                  'subjectName':$("#subjectName").val()
+              }, //数据，这里使用的是Json格式进行传输  JSON.stringify(obj.field)
+              success : function(res) {//返回数据根据结果进行相应的处理
+                  if(res.status=="success"){
+                      layer.msg("修改成功")
+                      var tableIns =table.render({
+                          elem: '#test'
+                          ,url:"/subject/findAll"
+                          ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                          ,type:'get'
+                          ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                              title: '提示'
+                              ,layEvent: 'LAYTABLE_TIPS'
+                              ,icon: 'layui-icon-tips'
+                              ,skin: 'demo-class'
+                          }]
+                          ,title: '用户数据表'
+                          ,parseData:function (res) {
+                              console.log(res);
+                              return {
+                                  "code": res.code
+                                  , "msg": res.msg
+                                  , "count": res.count
+                                  , "data": res.data
+                              }
+                          }
+                          ,cols: [[
+                              {type: 'checkbox', fixed: 'left'}
+                              ,{field:'subjectId', title:'编号', width:80, fixed: 'left', unresize: true,sort: true}
+                              ,{field:'subjectName', title:'学科名称', width:250}
+                              ,{field:'subjectNum', title:'学科选修人数', width:250}
+                              ,{field:'avgScores', title:'平均分', width:250}
+                              ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+                          ]]
+                          ,page: true
+                          ,limits:[1,5,10,20]
+                      });
+                      tableIns.reload({
+                          where: { //设定异步数据接口的额外参数，任意设
+
+                          }
+                          ,page: {
+                              curr: 1 //重新从第 1 页开始
+                          }
+                      });
+                  }
+              }
+          });
+
+        return false;//返回false页面就不会刷新
+    });
+
+
+});
+//添加页面的操作
+layui.use(['form','table'], function(){
+    var form = layui.form
+        ,layer = layui.layer
+        ,table=layui.table;
+
+//监听提交
+    form.on('submit(add_demo)', function(data){
+        $.ajax({
+            url : "/subject/insertSubject",//路径   //  / => localhost(127.0.0.1) :8080
+            type : "post",  //提交方式
+            dataType: 'json', // 接收数据的格式
+            data : {
+                "subjectName":$("#subjectNameadd").val()
+            }, //数据，这里使用的是Json格式进行传输  JSON.stringify(obj.field)
+            success : function(res) {//返回数据根据结果进行相应的处理
+                if(res.status=="success"){
+                    layer.msg("添加成功")
+                    var tableIns =table.render({
+                        elem: '#test'
+                        ,url:"/subject/findAll"
+                        ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                        ,type:'get'
+                        ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                            title: '提示'
+                            ,layEvent: 'LAYTABLE_TIPS'
+                            ,icon: 'layui-icon-tips'
+                            ,skin: 'demo-class'
+                        }]
+                        ,title: '用户数据表'
+                        ,parseData:function (res) {
+                            console.log(res);
+                            return {
+                                "code": res.code
+                                , "msg": res.msg
+                                , "count": res.count
+                                , "data": res.data
+                            }
+                        }
+                        ,cols: [[
+                            {type: 'checkbox', fixed: 'left'}
+                            ,{field:'subjectId', title:'编号', width:80, fixed: 'left', unresize: true,sort: true}
+                            ,{field:'subjectName', title:'学科名称', width:250}
+                            ,{field:'subjectNum', title:'学科选修人数', width:250}
+                            ,{field:'avgScores', title:'平均分', width:250}
+                            ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+                        ]]
+                        ,page: true
+                        ,limits:[1,5,10,20]
+                    });
+                    tableIns.reload({
+                        where: { //设定异步数据接口的额外参数，任意设
+
+                        }
+                        ,page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    });
+                }else {
+                    layer.alert("添加失败");
+                }
+            }
+        });
+        return false;
+    });
+});
+
+// 模糊查询
+
+layui.use(['form','table'], function(){
+    var form = layui.form
+        ,layer = layui.layer
+        ,table=layui.table;
+
+//监听提交
+    form.on('submit(search_example)', function(data){
+                    var tableIns =table.render({
+                        elem: '#test'
+                        ,url:"/susheSys/studentcontroller/studentselectAll?searchName="+$("#search").val()
+                        ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                        ,type:'get'
+                        ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                            title: '提示'
+                            ,layEvent: 'LAYTABLE_TIPS'
+                            ,icon: 'layui-icon-tips'
+                            ,skin: 'demo-class'
+                        }]
+                        ,title: '用户数据表'
+                        ,parseData:function (res) {
+                            console.log(res);
+                            return {
+                                "code": res.code
+                                , "msg": res.msg
+                                , "count": res.count
+                                , "data": res.data
+                            }
+                        }
+                        ,cols: [[
+                            {type: 'checkbox', fixed: 'left'}
+                            ,{field:'subjectId', title:'编号', width:80, fixed: 'left', unresize: true,sort: true}
+                            ,{field:'subjectName', title:'学科名称', width:250}
+                            ,{field:'subjectNum', title:'学科选修人数', width:250}
+                            ,{field:'avgScores', title:'平均分', width:250}
+                            ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+                        ]]
+                        ,page: true
+                        ,limits:[1,5,10,20]
+                    });
+                    tableIns.reload({
+                        where: { //设定异步数据接口的额外参数，任意设
+
+                        }
+                        ,page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    });
+
+        return false;
+    });
+});
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

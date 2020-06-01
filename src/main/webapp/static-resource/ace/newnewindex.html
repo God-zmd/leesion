@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>后台  Ace Admin123</title>
+
+    <meta name="description" content="overview &amp; stats" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+
+    <!-- page specific plugin styles -->
+    <link rel="stylesheet" href="assets/css/jquery-ui.min.css" />
+    <link rel="stylesheet" href="assets/css/bootstrap-datepicker3.min.css" />
+    <link rel="stylesheet" href="assets/css/ui.jqgrid.min.css" />
+
+    <!-- text fonts -->
+    <link rel="stylesheet" href="assets/css/fonts.googleapis.com.css" />
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
+    <![endif]-->
+    <link rel="stylesheet" href="assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+    <![endif]-->
+
+    <!-- inline styles related to this page -->
+
+    <!-- ace settings handler -->
+    <script src="assets/js/ace-extra.min.js"></script>
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+    <!--[if lte IE 8]>
+    <script src="assets/js/html5shiv.min.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="no-skin">
+<!-- header -->
+<div id="navbar" class="navbar navbar-default ace-save-state">
+    <div class="navbar-container ace-save-state" id="navbar-container">
+        <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+            <span class="sr-only">Toggle sidebar</span>
+
+            <span class="icon-bar"></span>
+
+            <span class="icon-bar"></span>
+
+            <span class="icon-bar"></span>
+        </button>
+
+        <div class="navbar-header pull-left">
+            <a href="index.html" class="navbar-brand">
+                <small>
+                    <i class="fa fa-leaf"></i>
+                    后台管理系统
+                </small>
+            </a>
+        </div>
+
+        <div class="navbar-buttons navbar-header pull-right" role="navigation">
+            <ul class="nav ace-nav">
+
+                <li class="light-blue dropdown-modal">
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                        <img class="nav-user-photo" src="assets/images/avatars/user.jpg" alt="Jason's Photo" />
+                        <span class="user-info">
+									<small>Welcome,</small>
+									Jason
+								</span>
+
+                        <i class="ace-icon fa fa-caret-down"></i>
+                    </a>
+
+                    <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <li>
+                            <a href="#">
+                                <i class="ace-icon fa fa-cog"></i>
+                                Settings
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="profile.html">
+                                <i class="ace-icon fa fa-user"></i>
+                                Profile
+                            </a>
+                        </li>
+
+                        <li class="divider"></li>
+
+                        <li>
+                            <a href="#">
+                                <i class="ace-icon fa fa-power-off"></i>
+                                Logout
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div><!-- /.navbar-container -->
+</div>
+<!-- header -->
+
+<!-- main -->
+<div class="main-container ace-save-state" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.loadState('main-container')}catch(e){}
+    </script>
+
+    <!-- menu -->
+    <div id="sidebar" class="sidebar                  responsive                    ace-save-state">
+        <script type="text/javascript">
+            try{ace.settings.loadState('sidebar')}catch(e){}
+        </script>
+
+
+        <ul class="nav nav-list">
+            <li class="">
+                <a href="index.html">
+                    <i class="menu-icon fa fa-tachometer"></i>
+                    <span class="menu-text"> 首页 </span>
+                </a>
+
+                <b class="arrow"></b>
+            </li>
+
+            <li class="active open">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon glyphicon glyphicon-user"></i>
+                    <span class="menu-text"> 用户管理 </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+                    <li class="">
+                        <a href="newnew.html">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            用户添加
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="active">
+                        <a href="user_list.html">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            用户列表
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li class="">
+                <a href="newnew.html" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-desktop"></i>
+                    <span class="menu-text">
+								角色管理
+							</span>
+
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+                    <li class="">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            角色添加
+                            <b class="menu-icon fa fa-caret-right"></b>
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            角色列表
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-list"></i>
+                    <span class="menu-text"> 新闻管理 </span>
+
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+                    <li class="">
+                        <a href="tables.html">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            发布新闻
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="jqgrid.html">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            新闻列表
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-pencil-square-o"></i>
+                    <span class="menu-text"> 产品管理 </span>
+
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+                    <li class="">
+                        <a href="form-elements.html">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            产品添加
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="form-elements-2.html">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            产品列表
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li class="">
+                <a href="widgets.html">
+                    <i class="menu-icon fa fa-list-alt"></i>
+                    <span class="menu-text"> 留言管理 </span>
+                </a>
+
+                <b class="arrow"></b>
+            </li>
+
+            <li class="">
+                <a href="widgets.html">
+                    <i class="menu-icon fa fa-cog"></i>
+                    <span class="menu-text"> 菜单管理 </span>
+                </a>
+
+                <b class="arrow"></b>
+            </li>
+
+            <li class="">
+                <a href="#">
+                    <i class="menu-icon fa fa-tag"></i>
+                    <span class="menu-text">个人资料 </span>
+                </a>
+                <b class="arrow"></b>
+
+            </li>
+
+        </ul><!-- /.nav-list -->
+
+        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+            <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+        </div>
+    </div>
+    <!-- menu -->
+
+    <div class="main-content">
+        <div class="main-content-inner">
+            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="ace-icon fa fa-home home-icon"></i>
+                        <a href="#">用户管理</a>
+                    </li>
+                    <li class="active">用户列表</li>
+                </ul><!-- /.breadcrumb -->
+
+            </div>
+
+            <div class="page-content">
+
+
+                <hr>
+
+                <!--<div class="row">-->
+                    <!--<div class="col-xs-12">-->
+
+                        <!--&lt;!&ndash; 表格定义 &ndash;&gt;-->
+                        <!--<table id="grid-table"></table>-->
+                        <!--&lt;!&ndash; 定义分页 &ndash;&gt;-->
+                        <!--<div id="grid-pager"></div>-->
+
+                        <!--&lt;!&ndash; PAGE CONTENT ENDS &ndash;&gt;-->
+                    <!--</div>&lt;!&ndash; /.col &ndash;&gt;-->
+                <!--</div>&lt;!&ndash; /.row &ndash;&gt;-->
+
+
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <!-- main -->
+
+    <!-- footer -->
+    <div class="footer">
+        <div class="footer-inner">
+            <div class="footer-content">
+						<span class="bigger-120">
+							<span class="blue bolder">万和</span>
+							IT教育 &copy; 我们 · 始于1993
+						</span>
+
+                &nbsp; &nbsp;
+                <span class="action-buttons">
+							<a href="#">
+								<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
+							</a>
+
+							<a href="#">
+								<i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
+							</a>
+
+							<a href="#">
+								<i class="ace-icon fa fa-rss-square orange bigger-150"></i>
+							</a>
+						</span>
+            </div>
+        </div>
+    </div>
+
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+    </a>
+</div><!-- /.main-container -->
+<!-- 修改弹出层 -->
+<div id="modal-table" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header no-padding">
+                <div class="table-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <span class="white">&times;</span>
+                    </button>
+                    修改用户信息
+                </div>
+            </div>
+
+            <div class="modal-body no-padding">
+                <div class="hr hr-dotted"></div>
+                <form class="form-horizontal" id="validation-form" method="get" novalidate="novalidate">
+                    <div class="form-group">
+                        <!--<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="tdext">用户名:</label>-->
+
+                        <div class="col-xs-12 col-sm-9">
+                            <div class="clearfix">
+                                <input name="name" id="name" class="col-xs-12 col-sm-6" type="text">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-2"></div>
+
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="password">密码:</label>
+
+                        <div class="col-xs-12 col-sm-9">
+                            <div class="clearfix">
+                                <input name="password" id="password" class="col-xs-12 col-sm-4" type="text">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hr hr-dotted"></div>
+
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="name">邮箱:</label>
+
+                        <div class="col-xs-12 col-sm-9">
+                            <div class="clearfix">
+                                <input id="mail" name="mail" class="col-xs-12 col-sm-5" type="email">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-2"></div>
+
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="phone">电话号码:</label>
+
+                        <div class="col-xs-12 col-sm-9">
+                            <div class="input-group">
+								<span class="input-group-addon">
+									<i class="ace-icon fa fa-phone"></i>
+								</span>
+
+                                <input id="phone" name="phone" type="tel">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="hr hr-dotted"></div>
+
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-3 no-padding-right">性别:</label>
+
+                        <div class="col-xs-12 col-sm-9">
+                            <div>
+                                <label class="line-height-1 blue">
+                                    <input name="gender" value="1" class="ace" type="radio">
+                                    <span class="lbl"> 男</span>
+                                </label>
+                            </div>
+
+                            <div>
+                                <label class="line-height-1 blue">
+                                    <input name="gender" value="2" class="ace" type="radio">
+                                    <span class="lbl"> 女</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hr hr-dotted"></div>
+
+
+                    <div class="form-group">
+                        <!--<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="comment">地址:</label>-->
+
+                        <div class="col-xs-12 col-sm-9">
+                            <div class="clearfix">
+                                <textarea class="input-xlarge" name="address" id="address"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+
+                </form>
+
+
+            </div>
+
+            <div class="modal-footer no-margin-top">
+                <button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+                    <i class="ace-icon fa fa-times"></i>
+                    Close
+                </button>
+                <button class="btn btn-success btn-next" data-last="Finish">
+                    提交
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<!-- footer --
+
+<!-- basic scripts -->
+
+<!--[if !IE]> -->
+<script src="assets/js/jquery-2.1.4.min.js"></script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script src="assets/js/jquery-1.11.3.min.js"></script>
+<![endif]-->
+<script type="text/javascript">
+    if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="assets/js/bootstrap.min.js"></script>
+
+<!-- page specific plugin scripts -->
+<script src="assets/js/bootstrap-datepicker.min.js"></script>
+<script src="assets/js/jquery.jqGrid.min.js"></script>
+<script src="assets/js/grid.locale-en.js"></script>
+
+<!-- ace scripts -->
+<script src="assets/js/ace-elements.min.js"></script>
+<script src="assets/js/ace.min.js"></script>
+
+</body>
+</html>
+<!-- inline scripts related to this page -->
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    var grid_data=
+        [
+            {id:"1",name:"张三",password:"123456",mail:"123456@qq.com",phone:"13812341234",gender:"女",address:"南京鼓楼",createTime:"2007-12-03 12:13:15"},
+            {id:"2",name:"张三",password:"123456",mail:"123456@qq.com",phone:"13812341234",gender:"男",address:"南京鼓楼",createTime:"2007-12-03 12:13:15"},
+            {id:"3",name:"张三",password:"123456",mail:"123456@qq.com",phone:"13812341234",gender:"男",address:"南京鼓楼",createTime:"2007-12-03 12:13:15"},
+            {id:"4",name:"张三",password:"123456",mail:"123456@qq.com",phone:"13812341234",gender:"男",address:"南京鼓楼",createTime:"2007-12-03 12:13:15"},
+            {id:"5",name:"张三",password:"123456",mail:"123456@qq.com",phone:"13812341234",gender:"男",address:"南京鼓楼",createTime:"2007-12-03 12:13:15"},
+            {id:"6",name:"张三",password:"123456",mail:"123456@qq.com",phone:"13812341234",gender:"男",address:"南京鼓楼",createTime:"2007-12-03 12:13:15"},
+            {id:"7",name:"张三",password:"123456",mail:"123456@qq.com",phone:"13812341234",gender:"男",address:"南京鼓楼",createTime:"2007-12-03 12:13:15"},
+            {id:"8",name:"张三",password:"123456",mail:"123456@qq.com",phone:"13812341234",gender:"男",address:"南京鼓楼",createTime:"2007-12-03 12:13:15"},
+            {id:"9",name:"张三",password:"123456",mail:"123456@qq.com",phone:"13812341234",gender:"男",address:"南京鼓楼",createTime:"2007-12-03 12:13:15"},
+            {id:"10",name:"张三",password:"123456",mail:"123456@qq.com",phone:"13812341234",gender:"男",address:"南京鼓楼",createTime:"2007-12-03 12:13:15"},
+            {id:"11",name:"张三",password:"123456",mail:"123456@qq.com",phone:"13812341234",gender:"男",address:"南京鼓楼",createTime:"2007-12-03 12:13:15"},
+            {id:"12",name:"张三",password:"123456",mail:"123456@qq.com",phone:"13812341234",gender:"男",address:"南京鼓楼",createTime:"2007-12-03 12:13:15"},
+        ];
+
+    // var grid_data={}
+    //     $.ajax({
+    //         async:false,
+    //         url:"/student/selectAll",
+    //         type:'post',
+    //         success:function (res) {
+    //             // console.log(res)
+    //             if (res!=null){
+    //                 grid_data=res
+    //             }
+    //
+    //         }
+    //     });
+
+    // jQuery(function($) {
+    //     var grid_selector = "#grid-table";
+    //     var pager_selector = "#grid-pager";
+    //     console.log(grid_data)
+    //     //初始化表格
+    //     jQuery(grid_selector).jqGrid({
+    //         // url:"student/selectAll",
+    //         // datatype:"json",
+    //         data: grid_data,
+    //         datatype: "local",
+    //         height: 250,
+    //         width: 1000,
+    //         // gridComplete: function (data){
+    //         //     grid_data=data
+    //         // },
+    //
+    //         colNames:[  'ID','学号','姓名'],
+    //         colModel:[
+    //             {name:'id',index:'id', width:30},
+    //             {name:'name',index:'name',width:50},
+    //             {name:'password',index:'password',width:50},
+    //             // // 下面的name里面是操作的属性不需要的同学可以删掉注意colNames与colModel字段长度对应
+    //             // {name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,search:false,
+    //             //     formatter:'actions',
+    //             //     formatoptions:{
+    //             //         // keys:true,
+    //             //         // editbutton: false,//disable edit button   行编辑是否启用
+    //             //         editOptions:{recreateForm: true},
+    //             //         // delbutton: false,//disable delete button  行删除是否启用
+    //             //         delOptions:{recreateForm: true}
+    //             //     }
+    //             // },
+    //
+    //         ],
+    //         pgtext:"第 {0} 页 {1}",
+    //         viewrecords : true,
+    //         recordtext :"当前 {0} - {1} 共 {2}",
+    //         rowNum:10,
+    //         rowList:[10,20,30],
+    //         pager : pager_selector,
+    //         altRows: true,
+    //
+    //         multiselect: true,
+    //         multiboxonly: true,
+    //
+    //         loadComplete : function() {
+    //             var table = this;
+    //             setTimeout(function(){
+    //                 updatePagerIcons(table);
+    //             }, 0);
+    //         },
+    //         caption: "用户列表"
+    //
+    //     });
+    //     function cmgStateFormat(cellValue,grid, rows, state) {
+    //         if(cellValue!=null){
+    //             return "<button class='btn btn-primary ' Onclick=\"change(" + rows.cmgId+","+cellValue + ")\">上架</button>" ; }else{
+    //             return "<button class='btn btn-warning ' Onclick=\"change(" + rows.cmgId+","+cellValue + ")\">下架</button>" ; }
+    //     }
+    //
+    //     $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+    //
+    //     // $(grid_selector).jqGrid('navGrid',pager_selector,
+    //     //     {     //navbar options//以下是table下方的操作是否启用
+    //     //         edit: true,
+    //     //         editicon : 'ace-icon fa fa-pencil blue',
+    //     //         add: true,
+    //     //         addicon : 'ace-icon fa fa-plus-circle purple',
+    //     //         del: true,
+    //     //         delicon : 'ace-icon fa fa-trash-o red',
+    //     //         search: true,
+    //     //         searchicon : 'ace-icon fa fa-search orange',
+    //     //         refresh: true,
+    //     //         refreshicon : 'ace-icon fa fa-refresh green',
+    //     //         view: true,
+    //     //         viewicon : 'ace-icon fa fa-search-plus grey',
+    //     //     },
+    //     // 编辑,删除操作
+    //     $("#grid-table").jqGrid('navGrid', pager_selector, {
+    //         del : true,
+    //         edit : true,
+    //         // editicon : 'ace-icon fa fa-pencil blue',
+    //         position : 'left',
+    //         editfunc : function(){//编辑按钮
+    //             //获取选中ID（可多选）
+    //             var ids=$('#grid-table').jqGrid('getGridParam','selarrrow');
+    //             if(ids.length>1){
+    //                 alert("请选择一行!");
+    //                 return;
+    //             }
+    //             //根ID据获的行的数据
+    //             var rowData = $('#grid-table').jqGrid('getRowData',ids);
+    //
+    //             //修改页面赋值
+    //             $('#name').val(rowData.name);
+    //             $('#password').val(rowData.password);
+    //             // $('#mail').val(rowData.mail);
+    //             // $('#phone').val(rowData.phone);
+    //             // if(rowData.gender=='男'){
+    //             //     $('input[name=gender][value=]').prop('checked',true);
+    //             // }else{
+    //             //     $('input[name=gender][value=]').prop('checked',true);
+    //             // }
+    //             // $('#address').val(rowData.address);
+    //             //
+    //             $("#modal-table").modal("show");
+    //
+    //         },
+    //         delfunc : function(){ //删除按钮
+    //
+    //             //获取选中ID（可多选）
+    //             var ids=$('#grid-table').jqGrid('getGridParam','selarrrow');
+    //             var idsArr= ids.toString().split(',');
+    //             for(var i=0;i<idsArr.length;i++){
+    //                 $('#grid-table').jqGrid('delRowData',idsArr[i]);
+    //             }
+    //             //重新加载
+    //             $("#grid-table").jqGrid("setGridParam", {
+    //                 postData: {}
+    //             }).trigger("reloadGrid");
+    //         },
+    //         alerttext : "请选择需要操作的数据行!"  // 当未选中任何行而点击编辑、删除，弹出的提示信息
+    //     });
+    //
+    //     //分页样式
+    //     function updatePagerIcons(table) {
+    //         var replacement =
+    //             {
+    //                 'ui-icon-seek-first' : 'ace-icon fa fa-angle-double-left bigger-140',
+    //                 'ui-icon-seek-prev' : 'ace-icon fa fa-angle-left bigger-140',
+    //                 'ui-icon-seek-next' : 'ace-icon fa fa-angle-right bigger-140',
+    //                 'ui-icon-seek-end' : 'ace-icon fa fa-angle-double-right bigger-140'
+    //             };
+    //         $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function(){
+    //             var icon = $(this);
+    //             var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+    //
+    //             if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
+    //         })
+    //     }
+    //
+    // });
+</script>
